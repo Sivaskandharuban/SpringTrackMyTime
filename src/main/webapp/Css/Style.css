@@ -1,0 +1,14 @@
+@charset "ISO-8859-1";
+
+
+
+   
+   input
+    {width:200px;}  
+
+#Tasks
+    {border: 2px solid #BCBCBC;
+    text-align:center;
+    background: linear-gradient(#eeeeee, #ffffff);}
+.container{width: 200px;}
+label{float: left;}
