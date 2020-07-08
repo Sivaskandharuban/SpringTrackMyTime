@@ -18,14 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Servlet implementation class SignUp
  */
-@WebServlet("/SignUp")
+//@WebServlet("/SignUp")
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
 public class SignUp extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	HashMap<String, String> logs = new HashMap<String, String>();
@@ -45,7 +51,8 @@ public class SignUp extends HttpServlet {
 		return matcher.matches();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping("/SignUp")
+	protected void SignUp(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		response.setHeader("Cache-Control","no-cache");
@@ -111,6 +118,7 @@ public class SignUp extends HttpServlet {
 		else {
 			
 			UserData user = new UserData(userName, mailId, password);
+			System.out.println(userName + " " + mailId + " "+password);
 
 			ObjectifyService.ofy().save().entity(user);
 			
@@ -126,7 +134,7 @@ public class SignUp extends HttpServlet {
 //			logs.put(userName, Password);
 			out.print("<font color='green'>Account Created Successfully, Please Login</font>");
 			
-			response.sendRedirect("Jsp/Login.jsp");
+			response.sendRedirect("Login.jsp");
 
 //			RequestDispatcher rs = request.getRequestDispatcher("TMT.html");
 //			rs.forward(request, response);

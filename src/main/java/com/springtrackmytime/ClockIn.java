@@ -13,19 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Servlet implementation class TimeConversion
  */
-@WebServlet("/ClockIn")
+//@WebServlet("/ClockIn")
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
 public class ClockIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	Long id = 5L;
 
 
-	
+	@RequestMapping("/ClockIn")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setHeader("Cache-Control","no-cache");

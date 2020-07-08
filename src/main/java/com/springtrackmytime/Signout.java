@@ -8,10 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 /**
  * Servlet implementation class Signout
  */
-@WebServlet("/Signout")
+//@WebServlet("/Signout")
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
 public class Signout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,6 +32,7 @@ public class Signout extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @RequestMapping("/Signout")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();	
@@ -33,7 +40,8 @@ public class Signout extends HttpServlet {
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
 		  response.setDateHeader ("Expires", 0);
-	        session.invalidate();		
+	        session.invalidate();	
+	        response.sendRedirect("Login.jsp");
 	}
 
 }

@@ -13,17 +13,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Servlet implementation class ClockOut
  */
-@WebServlet(urlPatterns = { "/ClockOut" })
+//@WebServlet(urlPatterns = { "/ClockOut" })
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
 public class ClockOut extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 
-	
+	@RequestMapping("/ClockOut")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		PrintWriter out = response.getWriter();

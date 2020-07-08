@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +33,7 @@
          
    
    
-   <a href = 'WEB-INF\Login.html'><input type="submit" value="Return to Login page"></a>
+   <a href = 'Login.jsp'><input type="submit" value="Return to Login page"></a>
    
 <script type="text/javascript" src = "Timer.js"></script>
 </body>

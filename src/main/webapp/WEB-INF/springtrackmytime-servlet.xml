@@ -16,7 +16,7 @@ http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 <ctx:component-scan base-package ="com.springtrackmytime"></ctx:component-scan>
 <mvc:default-servlet-handler />
 <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-<property name = "prefix" value = "/Jsp/" />
+<property name = "prefix" value = "/" />
 <property name = "suffix" value = ".jsp" />
 </bean>
 

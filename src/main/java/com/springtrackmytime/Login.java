@@ -15,19 +15,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+//@WebServlet("/Login")
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
+public class Login{
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping("/login")
+	protected void Login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session;
 		
 		response.setHeader("Cache-Control","no-cache");
 		  response.setHeader("Cache-Control","no-store");
@@ -36,12 +42,12 @@ public class Login extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();		
 		
-		HttpSession session = request.getSession(false);
+		session = request.getSession(false);
 		System.out.println("1");
 		if(session!=null) {
 			System.out.println("2");
 			out.println("User already Login");
-			response.sendRedirect("/Dashboard");
+			
 		}
 		
 		
@@ -83,7 +89,8 @@ public class Login extends HttpServlet {
 				session.setAttribute("userId",user.getId());
 				session.setAttribute("clockin",false);
 				out.print("Login Successful");
-				System.out.println(mailId+" "+ session.getAttribute(mailId));
+				System.out.println(mailId+" "+ session.getAttribute("mailId"));
+				System.out.println("Login successful");
 				response.sendRedirect("/Dashboard");
 				return;
 

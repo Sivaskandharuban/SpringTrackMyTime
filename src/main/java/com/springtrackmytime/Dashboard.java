@@ -17,16 +17,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.googlecode.objectify.ObjectifyService;
 
 
-@WebServlet("/Dashboard")
-public class Dashboard extends HttpServlet {
+//@WebServlet("/Dashboard")
+@Controller
+@ComponentScan(basePackages = {"com.springtrackmytime"})
+public class Dashboard {
 	private static final long serialVersionUID = 1L;    
        
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping("/Dashboard")
+	protected String MainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String result = "";
 		response.setHeader("Cache-Control","no-cache");
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
@@ -38,7 +45,7 @@ public class Dashboard extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if(session==null) {
 			out.println("Please Login");
-			response.sendRedirect("Login.html");
+			response.sendRedirect("Login.jsp");
 		}
 		
 		
@@ -46,7 +53,7 @@ public class Dashboard extends HttpServlet {
 		
 		else {		
 						
-			
+			System.out.println(session.getAttribute("mailId"));
 			String mailId = session.getAttribute("mailId").toString();
 			System.out.println(mailId);
 			
@@ -76,7 +83,7 @@ public class Dashboard extends HttpServlet {
 			}
 			}
 			
-			String result = "<!DOCTYPE html>\r\n" + 
+			result = "<!DOCTYPE html>\r\n" + 
 					"\r\n" + 
 					"<html lang = 'en-US'>\r\n" + 
 					"\r\n" + 
@@ -196,6 +203,8 @@ public class Dashboard extends HttpServlet {
 			response.setContentType("text/html");
 			out.write(result);
 	}
+		return result;
+		
 
 	}
 

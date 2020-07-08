@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +22,10 @@
 		
 		<button onclick = "login()">Sign In</button><br><br> 
 		<p>New to Track My Time? Sign up to create account</p>
-		<a href='SignUp.html'><input type="submit" value="Sign up"></a>
+		<a href='SignUp.jsp'><input type="submit" value="Sign up"></a>
 
 	
 	</div>
-	<script type="text/javascript" src = "Javascript/Timer.js"></script>
+	<script type="text/javascript" src = "Timer.js"></script>
 </body>
 </html>

@@ -99,7 +99,7 @@ function signUp() {
 			}
 		}
 		if (this.readyState == 4 && this.status == 200) {
-			window.location.replace("/Login.html");
+			window.location.replace("Login.jsp");
 			document.getElementById("loginResult").innerHTML = this.responseText;
 			//    	document.getElementById("message").innerHTML = this.responseText; 
 		}
@@ -355,7 +355,7 @@ function signOut() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			//    	document.getElementById("loginResult").innerHTML = this.responseText;
-			window.location.href = "/Login.html";
+			window.location.href = "Login.jsp";
 			//    	document.getElementById("message").innerHTML = this.responseText; 
 		}
 	};
