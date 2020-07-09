@@ -31,9 +31,7 @@ public class Dashboard {
 	private static final long serialVersionUID = 1L;    
        
 	@RequestMapping("/Dashboard")
-	protected String MainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String result = "";
+	protected void MainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Cache-Control","no-cache");
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
@@ -80,10 +78,11 @@ public class Dashboard {
 					result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td>" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
 			+ sdf.format(new Date(entry.getEndTime()))+"</td><td>"
 						+ ((entry.getEndTime()- entry.getStartTime())/1000/60/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60/60 : (entry.getEndTime()- entry.getStartTime())/1000/60/60) +"h " + ((entry.getEndTime()- entry.getStartTime())/1000/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60 : (entry.getEndTime()- entry.getStartTime())/1000/60)+"m" + "</td></tr>";
+			System.out.println("Time displayed");
 			}
 			}
 			
-			result = "<!DOCTYPE html>\r\n" + 
+			String result = "<!DOCTYPE html>\r\n" + 
 					"\r\n" + 
 					"<html lang = 'en-US'>\r\n" + 
 					"\r\n" + 
@@ -100,7 +99,7 @@ public class Dashboard {
 					"        <img src=\"dummy-profile-pic-300x300.jpg\" />\r\n" + 
 					"        <p><b id = \"timer\">00:00:00</b></p>\r\n" + 
 					"        <label class=\"switch\">\r\n" + 
-					"            <input type=\"checkbox\" id = \"check\" onclick=\"set()\" >\r\n" + 
+					"            <input type=\"checkbox\" id = \"check\" onclick=\"set()\">\r\n" + 
 					"            <span class=\"slider round\"></span>\r\n" + 
 					"          </label>\r\n" + 
 					"          \r\n" + 
@@ -203,7 +202,6 @@ public class Dashboard {
 			response.setContentType("text/html");
 			out.write(result);
 	}
-		return result;
 		
 
 	}

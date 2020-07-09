@@ -40,8 +40,15 @@ public class Signout extends HttpServlet {
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
 		  response.setDateHeader ("Expires", 0);
-	        session.invalidate();	
-	        response.sendRedirect("Login.jsp");
+//		  if((boolean) session.getAttribute("clockin")) {
+//	        	
+//	        response.sendRedirect("Login.jsp");
+//		  }
+//		  else {
+			  session.invalidate();
+			  response.sendRedirect("Login.jsp");
+//		  }
+	        
 	}
 
 }

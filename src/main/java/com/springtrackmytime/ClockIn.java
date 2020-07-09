@@ -28,7 +28,7 @@ import com.googlecode.objectify.ObjectifyService;
 public class ClockIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	Long id = 5L;
+	Long id = 0L;
 
 
 	@RequestMapping("/ClockIn")
@@ -66,8 +66,8 @@ public class ClockIn extends HttpServlet {
 		HttpSession session = request.getSession(false);
 	if(session==null){
 		response.setStatus(400);
-	out.println("session  not existed please login");
-	response.sendRedirect("Login.html");
+	out.println("session not existed please login");
+	response.sendRedirect("Login.jsp");
 	}
 	
 	else{

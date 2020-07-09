@@ -105,6 +105,7 @@ function signUp() {
 		}
 	};
 }
+}
 
 // Login Page Functionalities
 
@@ -138,21 +139,8 @@ var cell5;
 var startTime;
 var endTime;
 
-function set() {
+function set(){
 
-	//	var tSwitcher = document.getElementById('check');
-	//	let element = document.getElementById('check');
-	//	element.classList.add(onpageLoad);
-	//
-	//	  if(tSwitcher.checked){
-	//	      localStorage.setItem('theme', 'dark-mode');
-	//	        element.classList.add('dark-mode');
-	//	    } else {
-	//	      localStorage.setItem('theme', '');
-	//	        element.classList.remove('dark-mode');
-	//	    }
-	//	}	
-	//	
 
 	onOff = onOff + 1;
 	if (onOff % 2 == 1) {
@@ -346,7 +334,8 @@ function set() {
 
 }
 
-function signOut() {
+
+function signOut(){
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('GET', '/Signout', true);
@@ -359,5 +348,4 @@ function signOut() {
 			//    	document.getElementById("message").innerHTML = this.responseText; 
 		}
 	};
-}
 }

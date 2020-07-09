@@ -31,9 +31,9 @@ public class Login{
 	private static final long serialVersionUID = 1L;
 
 	@RequestMapping("/login")
-	protected void Login(HttpServletRequest request, HttpServletResponse response)
+	protected void login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session;
+		 
 		
 		response.setHeader("Cache-Control","no-cache");
 		  response.setHeader("Cache-Control","no-store");
@@ -42,16 +42,11 @@ public class Login{
 		
 		PrintWriter out = response.getWriter();		
 		
-		session = request.getSession(false);
-		System.out.println("1");
-		if(session!=null) {
-			System.out.println("2");
-			out.println("User already Login");
-			
-		}
 		
 		
-		else {
+		
+		
+		
 			
 			StringBuilder stringBuilder = new StringBuilder();
 			Scanner scanner = new Scanner(request.getInputStream());
@@ -83,7 +78,7 @@ public class Login{
 			if (user.getPassword().equals(password)) {
 
 //				response.sendRedirect("index.html");
-				session = request.getSession();
+				HttpSession session = request.getSession();
 				session.setAttribute("mailId", mailId);
 				session.setAttribute("lastEntry", user.getLastEntry());
 				session.setAttribute("userId",user.getId());
@@ -91,7 +86,7 @@ public class Login{
 				out.print("Login Successful");
 				System.out.println(mailId+" "+ session.getAttribute("mailId"));
 				System.out.println("Login successful");
-				response.sendRedirect("/Dashboard");
+//				response.sendRedirect("/Dashboard");
 				return;
 
 			}
@@ -109,5 +104,5 @@ public class Login{
 		}
 	}
 	}
-	}
+	
 

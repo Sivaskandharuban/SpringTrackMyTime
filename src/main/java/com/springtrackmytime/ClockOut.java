@@ -42,7 +42,7 @@ public class ClockOut extends HttpServlet {
 	if(session==null){
 		response.setStatus(400);
 	out.println("session  not existed please login");
-	response.sendRedirect("Login.html");
+	response.sendRedirect("Login.jsp");
 	}
 	else{
 		Long entryId= (Long)session.getAttribute("entryId");
