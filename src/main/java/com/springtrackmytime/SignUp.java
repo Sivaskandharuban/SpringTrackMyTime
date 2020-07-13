@@ -35,24 +35,24 @@ public class SignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	HashMap<String, String> logs = new HashMap<String, String>();
-	private Pattern pattern;
-	private Matcher matcher;
+//	private Pattern pattern;
+//	private Matcher matcher;
 
 
-	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+//	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+//			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+//
+//	public SignUp() {
+//		pattern = Pattern.compile(EMAIL_REGEX);
+//	}
 
-	public SignUp() {
-		pattern = Pattern.compile(EMAIL_REGEX);
-	}
-
-	public boolean validate(final String email) {
-		matcher = pattern.matcher(email);
-		return matcher.matches();
-	}
+//	public boolean validate(final String email) {
+//		matcher = pattern.matcher(email);
+//		return matcher.matches();
+//	}
 
 	@RequestMapping("/SignUp")
-	protected void SignUp(HttpServletRequest request, HttpServletResponse response)
+	protected void SignUpMethod(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		response.setHeader("Cache-Control","no-cache");
@@ -104,10 +104,10 @@ public class SignUp extends HttpServlet {
 			out.print("<font color='red'>*User name should not be empty</font>");
 		}
 		
-		else if (validate(mailId)==false) {
-			response.setStatus(400);
-			out.print("<font color='red'>*invalid mail format</font>");			
-		}
+//		else if (validate(mailId)==false) {
+//			response.setStatus(400);
+//			out.print("<font color='red'>*invalid mail format</font>");			
+//		}
 
 
 		else if (password.length() < 8) {

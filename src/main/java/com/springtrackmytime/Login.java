@@ -29,6 +29,7 @@ import com.googlecode.objectify.ObjectifyService;
 @ComponentScan(basePackages = {"com.springtrackmytime"})
 public class Login{
 	private static final long serialVersionUID = 1L;
+	
 
 	@RequestMapping("/login")
 	protected void login(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +43,13 @@ public class Login{
 		
 		PrintWriter out = response.getWriter();		
 		
+		HttpSession session = request.getSession(false);
+		System.out.println(session);
+		
+		if(session!=null) {
+			System.out.println("1");
+			response.sendRedirect("/Dashboard");
+		}
 		
 		
 		
@@ -57,6 +65,7 @@ public class Login{
 			
 			ObjectMapper mapper = new ObjectMapper();
 			
+			@SuppressWarnings("unchecked")
 			HashMap<String, String> map = mapper.readValue(body, HashMap.class);
 			
 		String mailId = map.get("mailId");
@@ -70,37 +79,41 @@ public class Login{
 		System.out.println("Hi " + user);
 
 		if (user == null) {
-			response.setStatus(400);
+			response.setStatus(500);
+			System.out.println("Mail does not exists");
 			out.print("<font color = 'red'>Mail Id does not exist, Please signup</font>");
 		}
 
 		else if (user.getMailId().equals(mailId)) {
 			if (user.getPassword().equals(password)) {
-
+				
+				
 //				response.sendRedirect("index.html");
-				HttpSession session = request.getSession();
+				session = request.getSession(false);
 				session.setAttribute("mailId", mailId);
 				session.setAttribute("lastEntry", user.getLastEntry());
 				session.setAttribute("userId",user.getId());
-				session.setAttribute("clockin",false);
+				session.setAttribute("clockIn",null);
+				
 				out.print("Login Successful");
 				System.out.println(mailId+" "+ session.getAttribute("mailId"));
 				System.out.println("Login successful");
 //				response.sendRedirect("/Dashboard");
-				return;
+				
+
 
 			}
 
 			else {
 				response.setStatus(400);
-				out.print("<font color = 'red'>Invalid Password</font>");
+				out.print("<p style = 'color : red'>*Invalid Password</p>");
 
 			}
 		}
 
 		else {
 			response.setStatus(400);
-			out.print("<font color = 'red'>Invalid Mail Id </font>");
+			out.print("<p style = 'color : red'>*Invalid Mail Id</p>");
 		}
 	}
 	}

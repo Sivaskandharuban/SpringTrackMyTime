@@ -35,19 +35,26 @@ public class Signout extends HttpServlet {
     @RequestMapping("/Signout")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();	
+		HttpSession session = request.getSession(false);	
 		response.setHeader("Cache-Control","no-cache");
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
 		  response.setDateHeader ("Expires", 0);
-//		  if((boolean) session.getAttribute("clockin")) {
-//	        	
-//	        response.sendRedirect("Login.jsp");
-//		  }
-//		  else {
+		  if(session.getAttribute("clockIn")==null) {
 			  session.invalidate();
-			  response.sendRedirect("Login.jsp");
-//		  }
+			  response.setStatus(200);
+		  }
+		  else if(!(boolean) session.getAttribute("clockIn")) {
+			  session.invalidate();
+			  System.out.println("Signout successful");
+//	        response.sendRedirect("Login.jsp");
+		  }
+		  else {
+			  session.setAttribute("clockIn", true);
+			  session.invalidate();
+//			  response.sendRedirect("Login.jsp");
+			  System.out.println("Signout with clockin");			  
+		  }
 	        
 	}
 

@@ -29,7 +29,7 @@ public class ClockIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	Long id = 0L;
-
+	boolean newUser = true;
 
 	@RequestMapping("/ClockIn")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,19 +64,33 @@ public class ClockIn extends HttpServlet {
 		Long startTime= System.currentTimeMillis();
 		Long endTime = 0L;
 		HttpSession session = request.getSession(false);
+		System.out.println("in");
+		if(newUser) {
+		session.setAttribute("clockIn",false);
+		newUser=false;
+		System.out.println("out");
+		}
+		
+		
+		
 	if(session==null){
 		response.setStatus(400);
 	out.println("session not existed please login");
 	response.sendRedirect("Login.jsp");
 	}
 	
+	else if(session.getAttribute("clockIn")==null) {
+		session.setAttribute("clockIn", false);
+	}
+	
 	else{
-		Boolean clockedIn=(Boolean) session.getAttribute("clockin");
+		Boolean clockedIn=(Boolean) session.getAttribute("clockIn");
 		if(clockedIn){
 			response.setStatus(400);
 			out.println("already clockedIn");
 		}
 		else{
+			
 //			Create new entry and store;
 			String mailId = (String) session.getAttribute("mailId");
 			
@@ -89,7 +103,7 @@ public class ClockIn extends HttpServlet {
 			user.setLastEntry(id);
 			user.setClockin(true);
 			session.setAttribute("entryId", id);
-			session.setAttribute("clockin",true);
+			session.setAttribute("clockIn",true);
 			ObjectifyService.ofy().save().entity(user);
 			
 			

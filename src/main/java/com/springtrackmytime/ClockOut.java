@@ -46,7 +46,7 @@ public class ClockOut extends HttpServlet {
 	}
 	else{
 		Long entryId= (Long)session.getAttribute("entryId");
-		Boolean clockdIn=(Boolean)session.getAttribute("clockin");
+		Boolean clockdIn=(Boolean)session.getAttribute("clockIn");
 		
 		if(!clockdIn) {
 			response.setStatus(400);
@@ -70,7 +70,7 @@ public class ClockOut extends HttpServlet {
 			user.setLastEntry(0);
 			user.setClockin(false);
 			session.setAttribute("entryId",null);
-			session.setAttribute("clockin",false);
+			session.setAttribute("clockIn",false);
 			ObjectifyService.ofy().save().entity(user);
 			
 			System.out.println(endTime + " " + td.getEndTime());

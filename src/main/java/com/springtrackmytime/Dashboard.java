@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.TimeZone;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,20 +44,35 @@ public class Dashboard {
 		PrintWriter out = response.getWriter();		
 		
 		HttpSession session = request.getSession(false);
+		try {
 		if(session==null) {
+			System.out.println("Unsuccess");
 			out.println("Please Login");
 			response.sendRedirect("Login.jsp");
-		}
-		
-		
+		}		
 		
 		
 		else {		
+			
+//			StringBuilder stringBuilder = new StringBuilder();
+//			Scanner scanner = new Scanner(request.getInputStream());
+//			while (scanner.hasNextLine()) {
+//			stringBuilder.append(""+scanner.nextLine()+"\n");
+//			}
+//			String body = stringBuilder.toString();
+//			
+//			ObjectMapper mapper = new ObjectMapper();
+//			
+//			HashMap<String, String> map = mapper.readValue(body, HashMap.class);
+//			
+//		String mailId = map.get("mailId");
+//		String password = map.get("password");
 						
+			System.out.println("2");
 			System.out.println(session.getAttribute("mailId"));
 			String mailId = session.getAttribute("mailId").toString();
 			System.out.println(mailId);
-			
+//			
 			List<TimeData> list = ObjectifyService.ofy().load().type(TimeData.class).filter("mailId", mailId).order("-startTime").list();
 			
 //			 Collections.sort(list, Collections.reverseOrder());
@@ -71,14 +89,26 @@ public class Dashboard {
 				if(!lastDate.equals(date)) {
 					lastDate=date;
 				result2 +=						
-						"<tr><td>"+date +"</td></tr>";
+						"<tr><td><u>"+date +"</u></td></tr>";
 				}
 						
-						
+						if(entry.getEndTime()!=0) {
 					result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td>" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
-			+ sdf.format(new Date(entry.getEndTime()))+"</td><td>"
-						+ ((entry.getEndTime()- entry.getStartTime())/1000/60/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60/60 : (entry.getEndTime()- entry.getStartTime())/1000/60/60) +"h " + ((entry.getEndTime()- entry.getStartTime())/1000/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60 : (entry.getEndTime()- entry.getStartTime())/1000/60)+"m" + "</td></tr>";
+			+ sdf.format(new Date(entry.getEndTime()))+"</td><td>"+
+			
+			((entry.getEndTime()- entry.getStartTime())/1000/60/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60/60 : (entry.getEndTime()- entry.getStartTime())/1000/60/60) +"h " +
+			((entry.getEndTime()- entry.getStartTime())/1000/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60 : (entry.getEndTime()- entry.getStartTime())/1000/60)+"m" + "</td></tr>";
 			System.out.println("Time displayed");
+			System.out.println(entry.getEndTime());
+						}
+						else {
+							result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td>" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
+									+ "Ongoing"+"</td><td>"+
+									
+									"</td></tr>";
+									System.out.println("Time displayed");
+									System.out.println(entry.getEndTime());
+						}
 			}
 			}
 			
@@ -97,7 +127,6 @@ public class Dashboard {
 					"    <div class=\"side-nav-content\">\r\n" + 
 					"        <h2>Track My Time</h2>\r\n" + 
 					"        <img src=\"dummy-profile-pic-300x300.jpg\" />\r\n" + 
-					"        <p><b id = \"timer\">00:00:00</b></p>\r\n" + 
 					"        <label class=\"switch\">\r\n" + 
 					"            <input type=\"checkbox\" id = \"check\" onclick=\"set()\">\r\n" + 
 					"            <span class=\"slider round\"></span>\r\n" + 
@@ -122,6 +151,7 @@ public class Dashboard {
 					"<div>\r\n" + 
 					"    <h1 class=\"Style\">Welcome to TMT</h1>\r\n" + 
 					"    <select name=\"Timezone\" id=\"Timezone\" style= \"float: right; display: block\">\r\n" + 
+					"<option value=\"Time Zone\">Default Time Zone(UTC)</option>\r\n" + 
 					"    <option value=\"Time Zone\">Indian Time Zone</option>\r\n" + 
 					"    <option value=\"Time Zone\">Detect Time Zone</option>\r\n" + 
 					"    </select>\r\n" + 
@@ -134,17 +164,17 @@ public class Dashboard {
 					"<section >\r\n" + 
 					"    <table id = \"clockTable\">\r\n" + 
 					"        \r\n" + 
-					"        <tr> \r\n" + 
-					"        <td>            \r\n" + 
-					"            <select name=\"Date\" id=\"Date\">\r\n" + 
-					"                <option value=\"Current_Week\">Select date</option>\r\n" + 
-					"                <option value=\"Last_Week\">Last Week</option>\r\n" + 
-					"                </select>  \r\n" + 
-					"                </td>\r\n" + 
-					"                \r\n" + 
-					"            </tr>\r\n" + 
-					"            \r\n" +
-					"            </tr>\r\n" + 
+//					"        <tr> \r\n" + 
+//					"        <td>            \r\n" + 
+//					"            <select name=\"Date\" id=\"Date\">\r\n" + 
+//					"                <option value=\"Current_Week\">Select date</option>\r\n" + 
+//					"                <option value=\"Last_Week\">Last Week</option>\r\n" + 
+//					"                </select>  \r\n" + 
+//					"                </td>\r\n" + 
+//					"                \r\n" + 
+//					"            </tr>\r\n" + 
+//					"            \r\n" +
+//					"            </tr>\r\n" + 
 					"            \r\n" + 
 					"\r\n" + 
 					"            <tr>\r\n" + 
@@ -170,10 +200,10 @@ public class Dashboard {
 					"            \r\n" + 
 					"             <tr id = \"initial\">\r\n" + 
 					"                <td>\r\n" + 
-					"                Add Task Description\r\n" + 
+					"                \r\n" + 
 					"            </td>\r\n" + 
 					"            <td>\r\n" + 
-					"                Project Working\r\n" + 
+					"                \r\n" + 
 					"            </td>\r\n" + 
 					"\r\n" + 
 					"            <td id = \"timeStarted\">\r\n" + 
@@ -205,6 +235,12 @@ public class Dashboard {
 		
 
 	}
+		catch(NullPointerException e) {
+			response.sendRedirect("Login.jsp");
+			
+	}
+	}
+	
 
 }
 

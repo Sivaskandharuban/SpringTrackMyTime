@@ -2,7 +2,7 @@ function login() {
 	var xhr = new XMLHttpRequest();
 	var mail = document.getElementById("mailId").value;
 	var pass = document.getElementById("Password").value;
-//	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 	
 	if(mail.length == 0)
 	{
@@ -13,10 +13,10 @@ function login() {
 		document.getElementById("loginResult").innerHTML = "<p style = 'color : red'>*Password field should not be empty</p>";
 	}
 	
-//	else if(!mail.match(mailformat))
-//	{
-//		document.getElementById("loginResult").innerHTML = "<p style = 'color : red'>*Invalid Mail Id format</p>";
-//	}
+	else if(!(mail.match(mailformat)))
+	{
+		document.getElementById("loginResult").innerHTML = "<p style = 'color : red'>*Invalid Mail format</p>";
+	}
 	else{	
 	var logDetails = {
 		mailId : mail,
@@ -24,22 +24,32 @@ function login() {
 	};
 
 	var jsonLogDetails = JSON.stringify(logDetails);
+	
+	
+
 
 	xhr.open('POST', '/login', true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(jsonLogDetails);
-
-	xhr.onreadystatechange = function() {
-
+	
+xhr.onload = function() {
+		
+		if (this.readyState == 4 && this.status == 500) {
+			console.log("mail id doesnot exist");
+			document.getElementById("loginResult").innerHTML = "<p style = 'color : red'>*Mail Id does not exist</p>";
+			console.log("Error check");
+		}
 		if (this.readyState == 4 && this.status == 400) {
-			document.getElementById("loginResult").innerHTML = this.responseText;
+				console.log("invoked");
+				document.getElementById("loginResult").innerHTML = "<p style = 'color : red'>*Invalid credentials</p>";
 		}
 
 		if (this.readyState == 4 && this.status == 200) {
 			window.location.href = "/Dashboard";
 		}
 	};
-}
+
+	}
 }
 
 function signUp() {
@@ -164,6 +174,7 @@ function set(){
 
 				if (this.readyState == 4 && this.status == 200) {
 					document.getElementById("timeStarted").innerHTML = this.response;
+					document.getElementById("timeEnded").innerHTML = "Ongoing";
 				}
 			};
 
@@ -187,6 +198,7 @@ function set(){
 
 				if (this.readyState == 4 && this.status == 200) {
 					cell3.innerHTML = this.response;
+					cell4.innerHTML = "Ongoing";
 				}
 			};
 		}
@@ -258,8 +270,7 @@ function set(){
 
 		document.getElementById("totalTime").innerHTML = hourOut + "h "
 				+ minOut + "m";
-		document.getElementById("timer").innerHTML = hourOut + ":" + minOut
-				+ ":" + secOut;
+		
 		//		document.getElementById("timeStarted").innerHTML = currentTime;
 		//		document.getElementById("timeEnded").innerHTML = "Ongoing";
 		console.log("hi");
@@ -314,8 +325,7 @@ function set(){
 		//	cell4.innerHTML = "Ongoing";
 		cell5.innerHTML = hourOut + "h " + minOut + "m";
 
-		document.getElementById("timer").innerHTML = hourOut + ":" + minOut
-				+ ":" + secOut;
+		
 		console.log("hi");
 	}
 
@@ -344,7 +354,7 @@ function signOut(){
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			//    	document.getElementById("loginResult").innerHTML = this.responseText;
-			window.location.href = "Login.jsp";
+			window.location.replace("Login.jsp");
 			//    	document.getElementById("message").innerHTML = this.responseText; 
 		}
 	};
