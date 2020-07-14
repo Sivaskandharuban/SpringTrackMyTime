@@ -8,6 +8,7 @@
 
 </head>
 <body style="background: skyblue">
+
 	<h2 style="text-align: center">
 		<b>Track My Time</b>
 	</h2>

@@ -109,9 +109,8 @@ function signUp() {
 			}
 		}
 		if (this.readyState == 4 && this.status == 200) {
-			window.location.replace("Login.jsp");
-			document.getElementById("loginResult").innerHTML = this.responseText;
-			//    	document.getElementById("message").innerHTML = this.responseText; 
+			window.location.href = "/Dashboard";
+			
 		}
 	};
 }
@@ -149,18 +148,23 @@ var cell5;
 var startTime;
 var endTime;
 
+var clockInCheck = document.getElementById("check").checked;
 function set(){
-
+	
 
 	onOff = onOff + 1;
 	if (onOff % 2 == 1) {
 		if (onOff == 1) {
+			localStorage.setItem("check", true);
+
+			
+//			document.getElementById("check").checked = localStorage.getItem("check");
 			var xhr = new XMLHttpRequest();
 
 			startTime = Date.now();
 			console.log(startTime);
 			endTime = 0;
-
+			
 			xhr.open('GET', '/ClockIn', true);
 			xhr.send();
 			console.log("redirecting to start");
@@ -173,14 +177,19 @@ function set(){
 				}
 
 				if (this.readyState == 4 && this.status == 200) {
+					console.log("Clockin started");
 					document.getElementById("timeStarted").innerHTML = this.response;
 					document.getElementById("timeEnded").innerHTML = "Ongoing";
+					document.getElementById("totalTime").innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s ";
+					console.log("Clockin Ongoing");
 				}
 			};
 
 		}
 
 		else {
+			localStorage.setItem("check", true);
+//			document.getElementById("check").checked = localStorage.getItem("check");
 			var xhr = new XMLHttpRequest();
 
 			startTime = Date.now();
@@ -199,11 +208,16 @@ function set(){
 				if (this.readyState == 4 && this.status == 200) {
 					cell3.innerHTML = this.response;
 					cell4.innerHTML = "Ongoing";
+					
 				}
 			};
 		}
 	} else {
 		if (onOff == 2) {
+			localStorage.setItem("check", false);
+//			clockOutCheck = document.getElementById("check").checked = false;
+//			localStorage.setItem("check", clockOutCheck);
+//			document.getElementById("check").checked = localStorage.getItem("check");
 			var xhr = new XMLHttpRequest();
 
 			endTime = Date.now();
@@ -223,6 +237,10 @@ function set(){
 				}
 			};
 		} else {
+			localStorage.setItem("check", false);
+//			clockOutCheck = document.getElementById("check").checked = false;
+//			localStorage.setItem("check", clockOutCheck);
+//			document.getElementById("check").checked = localStorage.getItem("check");
 			var xhr = new XMLHttpRequest();
 
 			endTime = Date.now();
@@ -267,13 +285,16 @@ function set(){
 			hour = ++hour;
 			min = 0;
 		}
+		
+		localStorage.setItem("Hours", hourOut);
+		localStorage.setItem("Minutes", minOut);
+		localStorage.setItem("Seconds",secOut);
 
-		document.getElementById("totalTime").innerHTML = hourOut + "h "
-				+ minOut + "m";
+		document.getElementById("totalTime").innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s ";
 		
 		//		document.getElementById("timeStarted").innerHTML = currentTime;
 		//		document.getElementById("timeEnded").innerHTML = "Ongoing";
-		console.log("hi");
+		
 	}
 
 	function check(i) {
@@ -319,11 +340,12 @@ function set(){
 			min = 0;
 		}
 
-		cell1.innerHTML = "Add Task Description";
-		cell2.innerHTML = "Project Working";
+//		cell1.innerHTML = "Add Task Description";
+//		cell2.innerHTML = "Project Working";
 		//	cell3.innerHTML = currentTime;
 		//	cell4.innerHTML = "Ongoing";
-		cell5.innerHTML = hourOut + "h " + minOut + "m";
+		cell5.innerHTML = hourOut + "h " + minOut + "m " + secOut + "s";
+//			localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s";
 
 		
 		console.log("hi");
@@ -353,6 +375,7 @@ function signOut(){
 
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+			localStorage.clear();
 			//    	document.getElementById("loginResult").innerHTML = this.responseText;
 			window.location.replace("Login.jsp");
 			//    	document.getElementById("message").innerHTML = this.responseText; 

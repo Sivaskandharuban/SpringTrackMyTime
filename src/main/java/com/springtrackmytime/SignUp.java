@@ -61,6 +61,7 @@ public class SignUp extends HttpServlet {
 		  response.setDateHeader ("Expires", 0);
 		  
 		PrintWriter out = response.getWriter();
+		UserData userData = new UserData();
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		Scanner scanner = new Scanner(request.getInputStream());
@@ -74,7 +75,7 @@ public class SignUp extends HttpServlet {
 		HashMap<String, String> map = mapper.readValue(body, HashMap.class);
 		
 		String userName = map.get("userName");
-		System.out.println(userName.isEmpty());
+		userData.setUserName(userName);
 		String mailId = map.get("mailId");
 		String password = map.get("password");
 
@@ -122,11 +123,13 @@ public class SignUp extends HttpServlet {
 
 			ObjectifyService.ofy().save().entity(user);
 			
-//			HttpSession session = request.getSession();
-//			session.setAttribute("mailId", mailId);
-//			session.setAttribute("lastEntry", user.getLastEntry());
-//			session.setAttribute("userId",user.getId());
-//			session.setAttribute("clockin",false);
+			HttpSession session = request.getSession();
+			session.setAttribute("mailId", mailId);
+			session.setAttribute("userName", userName);
+			session.setAttribute("lastEntry", user.getLastEntry());
+			session.setAttribute("userId",user.getId());
+			System.out.println(session.getAttribute("userId"));
+			session.setAttribute("clockIn",null);
 //			
 
 //			context.setAttribute("Logs", save);
@@ -134,7 +137,7 @@ public class SignUp extends HttpServlet {
 //			logs.put(userName, Password);
 			out.print("<font color='green'>Account Created Successfully, Please Login</font>");
 			
-			response.sendRedirect("Login.jsp");
+//			response.sendRedirect("/Dashboard");
 
 //			RequestDispatcher rs = request.getRequestDispatcher("TMT.html");
 //			rs.forward(request, response);

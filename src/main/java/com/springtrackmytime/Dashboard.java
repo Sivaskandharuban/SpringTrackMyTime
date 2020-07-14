@@ -44,15 +44,9 @@ public class Dashboard {
 		PrintWriter out = response.getWriter();		
 		
 		HttpSession session = request.getSession(false);
+		
 		try {
-		if(session==null) {
-			System.out.println("Unsuccess");
-			out.println("Please Login");
-			response.sendRedirect("Login.jsp");
-		}		
-		
-		
-		else {		
+					
 			
 //			StringBuilder stringBuilder = new StringBuilder();
 //			Scanner scanner = new Scanner(request.getInputStream());
@@ -80,6 +74,8 @@ public class Dashboard {
 			String result2 = "";
 			
 			String lastDate = ""; 
+			UserData userData = new UserData();
+			String name = userData.getUserName();
 			
 			if(list!=null) {
 			for(TimeData entry : list) {
@@ -111,13 +107,17 @@ public class Dashboard {
 						}
 			}
 			}
-			
+//			String script = "";
+//			if((boolean)session.getAttribute("clockIn")==true) {
+//				script+="";
+//			}
 			String result = "<!DOCTYPE html>\r\n" + 
 					"\r\n" + 
 					"<html lang = 'en-US'>\r\n" + 
 					"\r\n" + 
 					"<head>\r\n" + 
 					"    <link rel=\"stylesheet\" href=\"Style-TMT.css\">\r\n" + 
+					
 					"</head>\r\n" + 
 					"\r\n" + 
 					"<body class=\"BodyStyle\">\r\n" + 
@@ -128,7 +128,8 @@ public class Dashboard {
 					"        <h2>Track My Time</h2>\r\n" + 
 					"        <img src=\"dummy-profile-pic-300x300.jpg\" />\r\n" + 
 					"        <label class=\"switch\">\r\n" + 
-					"            <input type=\"checkbox\" id = \"check\" onclick=\"set()\">\r\n" + 
+					"            <input type=\"checkbox\" id = \"check\" onclick=\"set()\" >\r\n" + 
+//					checked=\"false\"
 					"            <span class=\"slider round\"></span>\r\n" + 
 					"          </label>\r\n" + 
 					"          \r\n" + 
@@ -177,6 +178,13 @@ public class Dashboard {
 //					"            </tr>\r\n" + 
 					"            \r\n" + 
 					"\r\n" + 
+					"<tr> \r\n" + 
+					"        <td> \r\n" +  "Welcome "+ name +      
+					"                </td>\r\n" + 
+					"                \r\n" + 
+					"            </tr>\r\n" + 
+					"            \r\n" +
+					"            </tr>\r\n" + 
 					"            <tr>\r\n" + 
 					"                <td>\r\n" + 
 					"                Task description\r\n" + 
@@ -232,10 +240,8 @@ public class Dashboard {
 			response.setContentType("text/html");
 			out.write(result);
 	}
-		
-
-	}
 		catch(NullPointerException e) {
+			System.out.println("exception handled");
 			response.sendRedirect("Login.jsp");
 			
 	}
