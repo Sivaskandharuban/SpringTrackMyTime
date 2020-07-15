@@ -2,6 +2,7 @@ package com.springtrackmytime;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -27,7 +28,7 @@ import com.googlecode.objectify.ObjectifyService;
 //@WebServlet("/Login")
 @Controller
 @ComponentScan(basePackages = {"com.springtrackmytime"})
-public class Login{
+public class Login implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 
@@ -43,19 +44,7 @@ public class Login{
 		
 		PrintWriter out = response.getWriter();		
 		
-		HttpSession session = request.getSession(false);
-		System.out.println(session);
 		
-		if(session!=null) {
-			System.out.println("1");
-			response.sendRedirect("/Dashboard");
-		}
-		
-		
-		
-		
-		
-			
 			StringBuilder stringBuilder = new StringBuilder();
 			Scanner scanner = new Scanner(request.getInputStream());
 			while (scanner.hasNextLine()) {
@@ -64,6 +53,7 @@ public class Login{
 			String body = stringBuilder.toString();
 			
 			ObjectMapper mapper = new ObjectMapper();
+			
 			
 			@SuppressWarnings("unchecked")
 			HashMap<String, String> map = mapper.readValue(body, HashMap.class);
@@ -89,7 +79,7 @@ public class Login{
 				
 				
 //				response.sendRedirect("index.html");
-				session = request.getSession(false);
+				HttpSession session = request.getSession(false);
 				session.setAttribute("mailId", mailId);
 				session.setAttribute("lastEntry", user.getLastEntry());
 				session.setAttribute("userId",user.getId());
@@ -116,6 +106,9 @@ public class Login{
 			out.print("<p style = 'color : red'>*Invalid Mail Id</p>");
 		}
 	}
-	}
+		}
+	
+
+	
 	
 

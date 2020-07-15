@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" session="false" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -7,18 +7,8 @@
 
 </head>
 <body>
-<%     
-session = request.getSession(false);
-
-if(session==null){
-	response.sendRedirect("Login.jsp");
-}
-else{
-	response.sendRedirect("/Dashboard");
-}
-
-
-  
+<% 	
+	response.sendRedirect("/welcome");
 %> 
 </body>
 </html>

@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.TimeZone;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
@@ -30,8 +31,9 @@ import com.googlecode.objectify.ObjectifyService;
 //@WebServlet("/Dashboard")
 @Controller
 @ComponentScan(basePackages = {"com.springtrackmytime"})
-public class Dashboard {
-	private static final long serialVersionUID = 1L;    
+public class Dashboard implements Serializable{
+	private static final long serialVersionUID = 1L; 
+	
        
 	@RequestMapping("/Dashboard")
 	protected void MainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,28 +46,16 @@ public class Dashboard {
 		PrintWriter out = response.getWriter();		
 		
 		HttpSession session = request.getSession(false);
+		System.out.println(session);
 		
+		if(session==null) {
+			System.out.println("Session not present, redirecting to login page");
+			response.sendRedirect("Login.jsp");
+		}
+		else {
 		try {
-					
 			
-//			StringBuilder stringBuilder = new StringBuilder();
-//			Scanner scanner = new Scanner(request.getInputStream());
-//			while (scanner.hasNextLine()) {
-//			stringBuilder.append(""+scanner.nextLine()+"\n");
-//			}
-//			String body = stringBuilder.toString();
-//			
-//			ObjectMapper mapper = new ObjectMapper();
-//			
-//			HashMap<String, String> map = mapper.readValue(body, HashMap.class);
-//			
-//		String mailId = map.get("mailId");
-//		String password = map.get("password");
-						
-			System.out.println("2");
-			System.out.println(session.getAttribute("mailId"));
-			String mailId = session.getAttribute("mailId").toString();
-			System.out.println(mailId);
+			String mailId = (String) session.getAttribute("mailId");
 //			
 			List<TimeData> list = ObjectifyService.ofy().load().type(TimeData.class).filter("mailId", mailId).order("-startTime").list();
 			
@@ -244,6 +234,7 @@ public class Dashboard {
 			System.out.println("exception handled");
 			response.sendRedirect("Login.jsp");
 			
+	}
 	}
 	}
 	

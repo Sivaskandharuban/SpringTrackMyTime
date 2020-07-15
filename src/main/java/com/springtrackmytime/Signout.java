@@ -1,8 +1,10 @@
 package com.springtrackmytime;
 
 import java.io.IOException;
+import java.io.Serializable;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+//import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@WebServlet("/Signout")
 @Controller
 @ComponentScan(basePackages = {"com.springtrackmytime"})
-public class Signout extends HttpServlet {
+public class Signout implements Serializable {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -40,18 +42,24 @@ public class Signout extends HttpServlet {
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
 		  response.setDateHeader ("Expires", 0);
+		  
 		  if(session.getAttribute("clockIn")==null) {
 			  session.invalidate();
+			  System.out.println(request.getSession());
 			  response.setStatus(200);
 		  }
 		  else if(!(boolean) session.getAttribute("clockIn")) {
 			  session.invalidate();
+			  System.out.println(request.getSession());
 			  System.out.println("Signout successful");
 //	        response.sendRedirect("Login.jsp");
 		  }
 		  else {
+			  
 			  session.setAttribute("clockIn", true);
+			  session = request.getSession(false);
 			  session.invalidate();
+			  System.out.println(request.getSession());
 //			  response.sendRedirect("Login.jsp");
 			  System.out.println("Signout with clockin");			  
 		  }

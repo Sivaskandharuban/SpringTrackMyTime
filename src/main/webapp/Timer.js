@@ -148,15 +148,19 @@ var cell5;
 var startTime;
 var endTime;
 
-var clockInCheck = document.getElementById("check").checked;
+
+localStorage.setItem("check", false);
+document.getElementById("check").checked = localStorage.getItem("check");
+
+
 function set(){
 	
 
 	onOff = onOff + 1;
 	if (onOff % 2 == 1) {
 		if (onOff == 1) {
-			localStorage.setItem("check", true);
-
+//			localStorage.setItem("check", true);
+//			document.getElementById("check").checked = localStorage.getItem("check");
 			
 //			document.getElementById("check").checked = localStorage.getItem("check");
 			var xhr = new XMLHttpRequest();
@@ -189,7 +193,7 @@ function set(){
 
 		else {
 			localStorage.setItem("check", true);
-//			document.getElementById("check").checked = localStorage.getItem("check");
+			
 			var xhr = new XMLHttpRequest();
 
 			startTime = Date.now();
@@ -214,7 +218,7 @@ function set(){
 		}
 	} else {
 		if (onOff == 2) {
-			localStorage.setItem("check", false);
+//			localStorage.setItem("check", false);
 //			clockOutCheck = document.getElementById("check").checked = false;
 //			localStorage.setItem("check", clockOutCheck);
 //			document.getElementById("check").checked = localStorage.getItem("check");
@@ -237,7 +241,7 @@ function set(){
 				}
 			};
 		} else {
-			localStorage.setItem("check", false);
+//			localStorage.setItem("check", false);
 //			clockOutCheck = document.getElementById("check").checked = false;
 //			localStorage.setItem("check", clockOutCheck);
 //			document.getElementById("check").checked = localStorage.getItem("check");
@@ -344,7 +348,8 @@ function set(){
 //		cell2.innerHTML = "Project Working";
 		//	cell3.innerHTML = currentTime;
 		//	cell4.innerHTML = "Ongoing";
-		cell5.innerHTML = hourOut + "h " + minOut + "m " + secOut + "s";
+		cell5.innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s";
+//			hourOut + "h " + minOut + "m " + secOut + "s";
 //			localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s";
 
 		

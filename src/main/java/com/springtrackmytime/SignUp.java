@@ -2,6 +2,7 @@ package com.springtrackmytime;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Scanner;
 //import java.util.List;
@@ -30,9 +31,10 @@ import com.googlecode.objectify.ObjectifyService;
 //@WebServlet("/SignUp")
 @Controller
 @ComponentScan(basePackages = {"com.springtrackmytime"})
-public class SignUp extends HttpServlet {
+public class SignUp implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	Long Id = 0L;
 
 	HashMap<String, String> logs = new HashMap<String, String>();
 //	private Pattern pattern;

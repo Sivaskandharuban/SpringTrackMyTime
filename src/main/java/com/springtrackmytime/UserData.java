@@ -1,11 +1,15 @@
 package com.springtrackmytime;
 
+import java.io.Serializable;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class UserData {
+public class UserData implements Serializable{
 	
+	
+	private static final long serialVersionUID = 1L;
 	public String userName = null;
 	@Index
 	public String mailId = null;
@@ -62,8 +66,8 @@ public class UserData {
 	public Long getId() {
 		return Id;
 	}
-	public void setId(Long id) {
-		Id = id;
+	public void setId(Long Id) {
+		this.Id = Id;
 	}
 	public String getPassword() {
 		return password;

@@ -2,6 +2,7 @@ package com.springtrackmytime;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -25,7 +26,7 @@ import com.googlecode.objectify.ObjectifyService;
 //@WebServlet("/ClockIn")
 @Controller
 @ComponentScan(basePackages = {"com.springtrackmytime"})
-public class ClockIn extends HttpServlet {
+public class ClockIn implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	Long id = 0L;

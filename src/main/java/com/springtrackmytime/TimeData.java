@@ -1,11 +1,16 @@
 package com.springtrackmytime;
 
+import java.io.Serializable;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class TimeData {
+public class TimeData implements Serializable{
 	
+	
+	private static final long serialVersionUID = 1L;
+
 	public String getTaskDescription() {
 		return taskDescription;
 	}
