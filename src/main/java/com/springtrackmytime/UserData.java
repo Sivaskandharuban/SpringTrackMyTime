@@ -17,7 +17,7 @@ public class UserData implements Serializable{
 	public long lastEntry;
 	public boolean clockin;
 	@com.googlecode.objectify.annotation.Id
-	Long Id;
+	Long id;
 	
 	
 	
@@ -27,6 +27,13 @@ public class UserData implements Serializable{
 			System.out.println(userName);
 		this.mailId=mailId;
 		this.password=password;
+		
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public long getLastEntry() {
 		return lastEntry;
@@ -63,12 +70,7 @@ public class UserData implements Serializable{
 	public void setMailId(String mailId) {
 		this.mailId = mailId;
 	}
-	public Long getId() {
-		return Id;
-	}
-	public void setId(Long Id) {
-		this.Id = Id;
-	}
+	
 	public String getPassword() {
 		return password;
 	}

@@ -65,6 +65,8 @@ public class ClockIn implements Serializable {
 		Long startTime= System.currentTimeMillis();
 		Long endTime = 0L;
 		HttpSession session = request.getSession(false);
+		System.out.println("New user " + newUser);
+		System.out.println(session);
 		System.out.println("in");
 		if(newUser) {
 		session.setAttribute("clockIn",false);
@@ -81,7 +83,28 @@ public class ClockIn implements Serializable {
 	}
 	
 	else if(session.getAttribute("clockIn")==null) {
-		session.setAttribute("clockIn", false);
+		String mailId = (String) session.getAttribute("mailId");
+		
+		Long userId = (Long) session.getAttribute("userId");
+		
+		UserData user = ObjectifyService.ofy().load().type(UserData.class).id(userId).now();
+		TimeData timeEntry = new TimeData(mailId,startTime,endTime);		
+		ObjectifyService.ofy().save().entity(timeEntry);
+		
+		user.setLastEntry(id);
+		user.setClockin(true);
+		session.setAttribute("entryId", id);
+		session.setAttribute("clockIn", true);
+
+		ObjectifyService.ofy().save().entity(user);
+		
+		
+		
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String utcStartTime =  sdf.format(new Date(startTime));
+        System.out.println(utcStartTime);
+        out.print(utcStartTime);
+		
 	}
 	
 	else{
@@ -91,8 +114,9 @@ public class ClockIn implements Serializable {
 			out.println("already clockedIn");
 		}
 		else{
-			
+//			UserData key = new UserData();
 //			Create new entry and store;
+			
 			String mailId = (String) session.getAttribute("mailId");
 			
 			Long userId = (Long) session.getAttribute("userId");

@@ -116,10 +116,11 @@ function signUp() {
 }
 }
 
-// Login Page Functionalities
+// Main Page Functionalities
 
 var x;
-var onOff = 0;
+
+
 
 var sec = 0;
 var min = 0;
@@ -129,13 +130,15 @@ var secOut = 0;
 var minOut = 0;
 var hourOut = 0;
 
-//var time = new Date();
+// var time = new Date();
 //
-//var curHour = time.getHours()<10 ?"0" + time.getHours() : time.getHours();
-//var curMin = time.getMinutes()<10 ?"0" + time.getMinutes() : time.getMinutes();
-//var curSec = time.getSeconds()<10 ?"0" + time.getSeconds() : time.getSeconds();
+// var curHour = time.getHours()<10 ?"0" + time.getHours() : time.getHours();
+// var curMin = time.getMinutes()<10 ?"0" + time.getMinutes() :
+// time.getMinutes();
+// var curSec = time.getSeconds()<10 ?"0" + time.getSeconds() :
+// time.getSeconds();
 //
-//var currentTime = curHour + ":" + curMin + ":" + curSec;
+// var currentTime = curHour + ":" + curMin + ":" + curSec;
 
 var myTable = document.getElementById("clockTable");
 var row;
@@ -147,10 +150,21 @@ var cell5;
 
 var startTime;
 var endTime;
+var time;
 
+var onOff;
+var str_onOff = 
+	localStorage.getItem("onOff");
+console.log("OnOff " + onOff);
+if (str_onOff == null || str_onOff == "null"){
+  onOff = 0;
+} else {
+  onOff = parseInt(str_onOff);
+} 
 
-localStorage.setItem("check", false);
-document.getElementById("check").checked = localStorage.getItem("check");
+var checked = localStorage.getItem("check");
+console.log(checked);
+document.getElementById("check").checked = checked!=null||checked!=undefined?(checked==='false' ? false :true):false;
 
 
 function set(){
@@ -159,10 +173,10 @@ function set(){
 	onOff = onOff + 1;
 	if (onOff % 2 == 1) {
 		if (onOff == 1) {
-//			localStorage.setItem("check", true);
-//			document.getElementById("check").checked = localStorage.getItem("check");
+			localStorage.setItem("onOff", onOff);
+			localStorage.setItem("check", true);
 			
-//			document.getElementById("check").checked = localStorage.getItem("check");
+		
 			var xhr = new XMLHttpRequest();
 
 			startTime = Date.now();
@@ -186,12 +200,15 @@ function set(){
 					document.getElementById("timeEnded").innerHTML = "Ongoing";
 					document.getElementById("totalTime").innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s ";
 					console.log("Clockin Ongoing");
+					time = localStorage.setItem("clockIn", this.response);
+					console.log(localStorage.getItem("clockIn"));
 				}
 			};
 
 		}
 
 		else {
+			localStorage.setItem("onOff", onOff);
 			localStorage.setItem("check", true);
 			
 			var xhr = new XMLHttpRequest();
@@ -212,16 +229,19 @@ function set(){
 				if (this.readyState == 4 && this.status == 200) {
 					cell3.innerHTML = this.response;
 					cell4.innerHTML = "Ongoing";
+					localStorage.setItem("clockIn", this.response);
+					console.log(localStorage.getItem("clockIn"));
 					
 				}
 			};
 		}
 	} else {
 		if (onOff == 2) {
-//			localStorage.setItem("check", false);
-//			clockOutCheck = document.getElementById("check").checked = false;
-//			localStorage.setItem("check", clockOutCheck);
-//			document.getElementById("check").checked = localStorage.getItem("check");
+			localStorage.setItem("onOff", onOff);
+			localStorage.setItem("check", false);
+// clockOutCheck = document.getElementById("check").checked = false;
+// localStorage.setItem("check", clockOutCheck);
+			
 			var xhr = new XMLHttpRequest();
 
 			endTime = Date.now();
@@ -241,10 +261,11 @@ function set(){
 				}
 			};
 		} else {
-//			localStorage.setItem("check", false);
-//			clockOutCheck = document.getElementById("check").checked = false;
-//			localStorage.setItem("check", clockOutCheck);
-//			document.getElementById("check").checked = localStorage.getItem("check");
+			localStorage.setItem("onOff", onOff);
+			localStorage.setItem("check", false);
+// clockOutCheck = document.getElementById("check").checked = false;
+// localStorage.setItem("check", clockOutCheck);
+			
 			var xhr = new XMLHttpRequest();
 
 			endTime = Date.now();
@@ -265,6 +286,7 @@ function set(){
 			};
 		}
 	}
+}
 
 	function start() {
 
@@ -296,8 +318,8 @@ function set(){
 
 		document.getElementById("totalTime").innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s ";
 		
-		//		document.getElementById("timeStarted").innerHTML = currentTime;
-		//		document.getElementById("timeEnded").innerHTML = "Ongoing";
+		// document.getElementById("timeStarted").innerHTML = currentTime;
+		// document.getElementById("timeEnded").innerHTML = "Ongoing";
 		
 	}
 
@@ -311,13 +333,13 @@ function set(){
 
 	function stop() {
 		clearInterval(x);
-		//	document.getElementById("timeEnded").innerHTML = currentTime;
+		// document.getElementById("timeEnded").innerHTML = currentTime;
 	}
 
 	function addStart() {
 		console.log("function call addStart");
 		var myTable = document.getElementById("clockTable");
-		row = myTable.insertRow(2);
+		row = myTable.insertRow(1);
 		cell1 = row.insertCell(0);
 		cell2 = row.insertCell(1);
 		cell3 = row.insertCell(2);
@@ -344,13 +366,14 @@ function set(){
 			min = 0;
 		}
 
-//		cell1.innerHTML = "Add Task Description";
-//		cell2.innerHTML = "Project Working";
-		//	cell3.innerHTML = currentTime;
-		//	cell4.innerHTML = "Ongoing";
-		cell5.innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s";
-//			hourOut + "h " + minOut + "m " + secOut + "s";
-//			localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s";
+// cell1.innerHTML = "Add Task Description";
+// cell2.innerHTML = "Project Working";
+		// cell3.innerHTML = currentTime;
+		// cell4.innerHTML = "Ongoing";
+		cell5.innerHTML = 
+			hourOut + "h " + minOut + "m " + secOut + "s";
+// localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m "
+// +localStorage.getItem("Seconds")+"s";
 
 		
 		console.log("hi");
@@ -366,12 +389,8 @@ function set(){
 
 	function addStop() {
 		clearInterval(x);
-		//		cell4.innerHTML = currentTime;
+		// cell4.innerHTML = currentTime;
 	}
-
-}
-
-
 function signOut(){
 	var xhr = new XMLHttpRequest();
 
@@ -381,9 +400,47 @@ function signOut(){
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			localStorage.clear();
-			//    	document.getElementById("loginResult").innerHTML = this.responseText;
+			// document.getElementById("loginResult").innerHTML =
+			// this.responseText;
 			window.location.replace("Login.jsp");
-			//    	document.getElementById("message").innerHTML = this.responseText; 
+			// document.getElementById("message").innerHTML = this.responseText;
 		}
 	};
+}
+
+function refresh(){
+	console.log("function refresh called");
+	if(localStorage.getItem("check")==='true'){
+		
+		console.log("refresh timer starts");
+		x = setInterval(refreshTimer, 1000);
+	}
+		function refreshTimer(){
+		secOut = localStorage.getItem("Seconds");
+		minOut = localStorage.getItem("Minutes");
+		hourOut = localStorage.getItem("Hours");
+
+		secOut = ++secOut;
+
+		if (secOut == 60) {
+			minOut = ++minOut;
+			secOut = 0;
+		}
+
+		if (min == 60) {
+			hourOut = ++hourOut;
+			minOut = 0;
+		}
+		document.getElementById("timeStarted").innerHTML = localStorage.getItem("clockIn");
+		document.getElementById("timeEnded").innerHTML = "Ongoing";
+		document.getElementById("totalTime").innerHTML = hourOut + "h " + minOut + "m " + secOut + "s";
+	}
+	function check(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+
+	}
+	
 }

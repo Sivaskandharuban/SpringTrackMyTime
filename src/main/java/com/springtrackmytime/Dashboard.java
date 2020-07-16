@@ -59,6 +59,7 @@ public class Dashboard implements Serializable{
 //			
 			List<TimeData> list = ObjectifyService.ofy().load().type(TimeData.class).filter("mailId", mailId).order("-startTime").list();
 			
+			UserData key = ObjectifyService.ofy().load().type(UserData.class).filter("mailId", mailId).first().now();
 //			 Collections.sort(list, Collections.reverseOrder());
 			
 			String result2 = "";
@@ -83,7 +84,9 @@ public class Dashboard implements Serializable{
 			+ sdf.format(new Date(entry.getEndTime()))+"</td><td>"+
 			
 			((entry.getEndTime()- entry.getStartTime())/1000/60/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60/60 : (entry.getEndTime()- entry.getStartTime())/1000/60/60) +"h " +
-			((entry.getEndTime()- entry.getStartTime())/1000/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60 : (entry.getEndTime()- entry.getStartTime())/1000/60)+"m" + "</td></tr>";
+			((entry.getEndTime()- entry.getStartTime())/1000/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60 : (entry.getEndTime()- entry.getStartTime())/1000/60)+"m " + 
+//			((entry.getEndTime()- entry.getStartTime())/1000<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000 : (entry.getEndTime()- entry.getStartTime())/1000)+"s " +
+			"</td></tr>";
 			System.out.println("Time displayed");
 			System.out.println(entry.getEndTime());
 						}
@@ -110,7 +113,7 @@ public class Dashboard implements Serializable{
 					
 					"</head>\r\n" + 
 					"\r\n" + 
-					"<body class=\"BodyStyle\">\r\n" + 
+					"<body class=\"BodyStyle\" onload=\"refresh()\">\r\n" + 
 					"<p id = \"message\" style = \"text-align : center\"></p>\r\n" + 
 					"    <div>\r\n" + 
 					"<aside class=\"sidenav\">\r\n" + 
@@ -166,10 +169,10 @@ public class Dashboard implements Serializable{
 //					"            </tr>\r\n" + 
 //					"            \r\n" +
 //					"            </tr>\r\n" + 
-					"            \r\n" + 
-					"\r\n" + 
+//					"            \r\n" + 
+//					"\r\n" + 
 					"<tr> \r\n" + 
-					"        <td> \r\n" +  "Welcome "+ name +      
+					"        <td> \r\n" +  "Welcome "+ key.getUserName() +      
 					"                </td>\r\n" + 
 					"                \r\n" + 
 					"            </tr>\r\n" + 

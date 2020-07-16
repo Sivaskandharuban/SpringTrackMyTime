@@ -44,12 +44,12 @@ public class Signout implements Serializable {
 		  response.setDateHeader ("Expires", 0);
 		  
 		  if(session.getAttribute("clockIn")==null) {
-			  session.invalidate();
+			  request.getSession().invalidate();
 			  System.out.println(request.getSession());
 			  response.setStatus(200);
 		  }
 		  else if(!(boolean) session.getAttribute("clockIn")) {
-			  session.invalidate();
+			  request.getSession().invalidate();
 			  System.out.println(request.getSession());
 			  System.out.println("Signout successful");
 //	        response.sendRedirect("Login.jsp");
@@ -57,8 +57,7 @@ public class Signout implements Serializable {
 		  else {
 			  
 			  session.setAttribute("clockIn", true);
-			  session = request.getSession(false);
-			  session.invalidate();
+			  request.getSession().invalidate();
 			  System.out.println(request.getSession());
 //			  response.sendRedirect("Login.jsp");
 			  System.out.println("Signout with clockin");			  

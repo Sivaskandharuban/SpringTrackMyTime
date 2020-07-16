@@ -83,6 +83,7 @@ public class Login implements Serializable{
 				session.setAttribute("mailId", mailId);
 				session.setAttribute("lastEntry", user.getLastEntry());
 				session.setAttribute("userId",user.getId());
+				System.out.println(user.getId());
 				session.setAttribute("clockIn",null);
 				
 				out.print("Login Successful");

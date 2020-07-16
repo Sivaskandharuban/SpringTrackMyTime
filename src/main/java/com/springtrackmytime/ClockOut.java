@@ -46,7 +46,7 @@ public class ClockOut implements Serializable {
 	response.sendRedirect("Login.jsp");
 	}
 	else{
-		Long entryId= (Long)session.getAttribute("entryId");
+//		Long entryId= (Long)session.getAttribute("entryId");
 		Boolean clockdIn=(Boolean)session.getAttribute("clockIn");
 		
 		if(!clockdIn) {
@@ -60,6 +60,8 @@ public class ClockOut implements Serializable {
 			System.out.println(mailId);
 			
 			Long userId = (Long) session.getAttribute("userId");
+			
+			
 			
 			UserData user = ObjectifyService.ofy().load().type(UserData.class).id(userId).now();
 			TimeData td = ObjectifyService.ofy().load().type(TimeData.class).filter("mailId",mailId).filter("endTime",0).first().now();	

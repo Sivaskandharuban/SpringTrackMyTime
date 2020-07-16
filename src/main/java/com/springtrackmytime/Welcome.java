@@ -21,17 +21,22 @@ public class Welcome implements Serializable{
 	@RequestMapping("/welcome")
 	protected void welcome(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		System.out.println(session);
 		
-		if(session==null) {
-			
+		if(session!=null) {
+			if(session.getAttribute("mailId")==null) {
+				response.sendRedirect("Login.jsp");
+			}
+			else {
 			System.out.println("1");
-			response.sendRedirect("Login.jsp");
+			response.sendRedirect("/Dashboard");
+			}
+			
 		}
 		
 		else {			
-				response.sendRedirect("/Dashboard");
+			response.sendRedirect("Login.jsp");
 		}
 	}
 	

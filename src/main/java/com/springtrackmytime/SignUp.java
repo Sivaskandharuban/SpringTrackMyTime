@@ -34,7 +34,7 @@ import com.googlecode.objectify.ObjectifyService;
 public class SignUp implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	Long Id = 0L;
+//	long Id = 1L;
 
 	HashMap<String, String> logs = new HashMap<String, String>();
 //	private Pattern pattern;
@@ -63,7 +63,9 @@ public class SignUp implements Serializable {
 		  response.setDateHeader ("Expires", 0);
 		  
 		PrintWriter out = response.getWriter();
-		UserData userData = new UserData();
+//		UserData userData = new UserData();
+//		userData.getId();
+//		System.out.println(userData.getId());
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		Scanner scanner = new Scanner(request.getInputStream());
@@ -77,7 +79,7 @@ public class SignUp implements Serializable {
 		HashMap<String, String> map = mapper.readValue(body, HashMap.class);
 		
 		String userName = map.get("userName");
-		userData.setUserName(userName);
+//		userData.setUserName(userName);
 		String mailId = map.get("mailId");
 		String password = map.get("password");
 
@@ -120,16 +122,19 @@ public class SignUp implements Serializable {
 
 		else {
 			
+			
 			UserData user = new UserData(userName, mailId, password);
+			
 			System.out.println(userName + " " + mailId + " "+password);
 
 			ObjectifyService.ofy().save().entity(user);
+			UserData key = ObjectifyService.ofy().load().type(UserData.class).filter("mailId", mailId).first().now();
 			
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
 			session.setAttribute("mailId", mailId);
 			session.setAttribute("userName", userName);
-			session.setAttribute("lastEntry", user.getLastEntry());
-			session.setAttribute("userId",user.getId());
+			session.setAttribute("lastEntry", null);			
+			session.setAttribute("userId",key.getId());
 			System.out.println(session.getAttribute("userId"));
 			session.setAttribute("clockIn",null);
 //			
