@@ -12,7 +12,7 @@
 
 <h2 style = "text-align : center"><b>Track My Time</b></h2>
 
-<p style = "color : Brown">Note : After successful sign up, You will be redirected to sign in page</p>
+
 
 <div id = signupResult></div>
 

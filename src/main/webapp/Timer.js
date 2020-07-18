@@ -1,4 +1,5 @@
 function login() {
+	
 	var xhr = new XMLHttpRequest();
 	var mail = document.getElementById("mailId").value;
 	var pass = document.getElementById("Password").value;
@@ -166,6 +167,8 @@ var checked = localStorage.getItem("check");
 console.log(checked);
 document.getElementById("check").checked = checked!=null||checked!=undefined?(checked==='false' ? false :true):false;
 
+var ZoneDropDown;
+
 
 function set(){
 	
@@ -281,7 +284,16 @@ function set(){
 				}
 
 				if (this.readyState == 4 && this.status == 200) {
+					onOff = parseInt(localStorage.getItem("onOff"));
+					
+					if(onOff===1)
+					{
+						onOff = parseInt(localStorage.setItem("onOff", 2));
+						document.getElementById("timeEnded").innerHTML = this.response;
+					}
+					else{
 					cell4.innerHTML = this.response;
+					}
 				}
 			};
 		}
@@ -339,7 +351,7 @@ function set(){
 	function addStart() {
 		console.log("function call addStart");
 		var myTable = document.getElementById("clockTable");
-		row = myTable.insertRow(1);
+		row = myTable.insertRow(2);
 		cell1 = row.insertCell(0);
 		cell2 = row.insertCell(1);
 		cell3 = row.insertCell(2);
@@ -409,38 +421,76 @@ function signOut(){
 }
 
 function refresh(){
+	timeZoneList();
 	console.log("function refresh called");
+	parseInt(localStorage.setItem("onOff", 1));
+	
 	if(localStorage.getItem("check")==='true'){
+		
+		
 		
 		console.log("refresh timer starts");
 		x = setInterval(refreshTimer, 1000);
+		
 	}
-		function refreshTimer(){
-		secOut = localStorage.getItem("Seconds");
-		minOut = localStorage.getItem("Minutes");
-		hourOut = localStorage.getItem("Hours");
+	
+	
+function refreshTimer(){	
+			
+			
+			let sec = check(parseInt(localStorage.getItem("Seconds")));
+			let min = check(parseInt(localStorage.getItem("Minutes")));
+			let hour = check(parseInt(localStorage.getItem("Hours")));
+		
 
-		secOut = ++secOut;
+		sec = ++sec;
 
-		if (secOut == 60) {
-			minOut = ++minOut;
-			secOut = 0;
+		if (sec == 60) {
+			min = ++min;
+			sec = 0;
 		}
 
 		if (min == 60) {
-			hourOut = ++hourOut;
-			minOut = 0;
+			hour = ++hour;
+			min = 0;
 		}
+		
+		localStorage.setItem("Hours", hour);
+		localStorage.setItem("Minutes", min);
+		localStorage.setItem("Seconds",sec);
+
+		document.getElementById("totalTime").innerHTML = localStorage.getItem("Hours") +"h " + localStorage.getItem("Minutes")+"m " +localStorage.getItem("Seconds")+"s ";
 		document.getElementById("timeStarted").innerHTML = localStorage.getItem("clockIn");
 		document.getElementById("timeEnded").innerHTML = "Ongoing";
-		document.getElementById("totalTime").innerHTML = hourOut + "h " + minOut + "m " + secOut + "s";
-	}
-	function check(i) {
-		if (i < 10) {
-			i = "0" + i;
-		}
-		return i;
+//		document.getElementById("totalTime").innerHTML = hour + "h " + min + "m " + sec + "s";
+	}	
+}
 
-	}
-	
+
+
+function timeZoneList(){//onload="timeZoneList()"
+	console.log("TimeZone function called");
+	var xhr = new XMLHttpRequest();
+
+	xhr.open('GET', 'http://api.timezonedb.com/v2.1/list-time-zone?key=DG0Y992WEDBY&format=json', true);
+	xhr.send();
+
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log("Checking response", this.response);
+			
+			var zoneList = JSON.parse(this.response);
+			console.log("Result here", zoneList);
+			for(let i = 0;i<=zoneList.zones.length-1;i++){
+//				var zoneName = {name : ""};
+//					zoneName.name = zoneList.zones[i].zoneName;
+//					var ZoneDropDown.push(zoneName);
+////				var checkZone = zoneList.zones[i].zoneName;
+//				console.log("Pushing to array ", ZoneDropDown);
+				
+			 document.getElementById("timeZoneList").innerHTML = zoneList.zones[i].zoneName;
+			 console.log(zoneList.zones[i].zoneName);
+			}			 
+		}
+	};
 }

@@ -145,9 +145,7 @@ public class Dashboard implements Serializable{
 					"<div>\r\n" + 
 					"    <h1 class=\"Style\">Welcome to TMT</h1>\r\n" + 
 					"    <select name=\"Timezone\" id=\"Timezone\" style= \"float: right; display: block\">\r\n" + 
-					"<option value=\"Time Zone\">Default Time Zone(UTC)</option>\r\n" + 
-					"    <option value=\"Time Zone\">Indian Time Zone</option>\r\n" + 
-					"    <option value=\"Time Zone\">Detect Time Zone</option>\r\n" + 
+					"    <option value=\"Time Zone\" id=\"timeZoneList\"></option>\r\n" + 
 					"    </select>\r\n" + 
 					"    <label for=\"Timezone\" style =\"color: black; text-align: right; float: right; padding-right: 13px;\">\r\n" + 
 					"        Choose Timezone\r\n" + 
