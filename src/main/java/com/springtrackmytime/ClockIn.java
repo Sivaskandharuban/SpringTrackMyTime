@@ -100,7 +100,7 @@ public class ClockIn implements Serializable {
 		
 		
 		
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));
         String utcStartTime =  sdf.format(new Date(startTime));
         System.out.println(utcStartTime);
         out.print(utcStartTime);
@@ -133,7 +133,7 @@ public class ClockIn implements Serializable {
 			
 			
 			
-	        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+	        sdf.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));
 	        String utcStartTime =  sdf.format(new Date(startTime));
 	        System.out.println(utcStartTime);
 	        out.print(utcStartTime);

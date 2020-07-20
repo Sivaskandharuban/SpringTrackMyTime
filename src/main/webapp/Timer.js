@@ -152,7 +152,6 @@ var cell5;
 var startTime;
 var endTime;
 var time;
-
 var onOff;
 var str_onOff = 
 	localStorage.getItem("onOff");
@@ -166,8 +165,6 @@ if (str_onOff == null || str_onOff == "null"){
 var checked = localStorage.getItem("check");
 console.log(checked);
 document.getElementById("check").checked = checked!=null||checked!=undefined?(checked==='false' ? false :true):false;
-
-var ZoneDropDown;
 
 
 function set(){
@@ -423,7 +420,7 @@ function signOut(){
 function refresh(){
 	timeZoneList();
 	console.log("function refresh called");
-	parseInt(localStorage.setItem("onOff", 1));
+	parseInt(localStorage.setItem("onOff", 0));
 	
 	if(localStorage.getItem("check")==='true'){
 		
@@ -466,9 +463,12 @@ function refreshTimer(){
 	}	
 }
 
+var select;
+var selectedTimeZone;
+var loadTimeZone;
 
 
-function timeZoneList(){//onload="timeZoneList()"
+function timeZoneList(){
 	console.log("TimeZone function called");
 	var xhr = new XMLHttpRequest();
 
@@ -477,20 +477,63 @@ function timeZoneList(){//onload="timeZoneList()"
 
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log("Checking response", this.response);
-			
+			select = document.getElementById("selectTimeZone")
 			var zoneList = JSON.parse(this.response);
-			console.log("Result here", zoneList);
-			for(let i = 0;i<=zoneList.zones.length-1;i++){
-//				var zoneName = {name : ""};
-//					zoneName.name = zoneList.zones[i].zoneName;
-//					var ZoneDropDown.push(zoneName);
-////				var checkZone = zoneList.zones[i].zoneName;
-//				console.log("Pushing to array ", ZoneDropDown);
+			console.log("Result here", zoneList.zones);
+			var dropDownValue = zoneList.zones
+			
+			
+			for(var i=0; i<dropDownValue.length; i++){
+				 var opt = dropDownValue[i].zoneName;
+				console.log("LISTS", opt)
+				 var el = document.createElement("option")
 				
-			 document.getElementById("timeZoneList").innerHTML = zoneList.zones[i].zoneName;
-			 console.log(zoneList.zones[i].zoneName);
-			}			 
+//				document.getElementsByClass("zoneSelected").innerHTML =  
+			    el.textContent = opt;
+			    el.value = opt;
+			    select.appendChild(el);
+			    selectedTimeZoneIndex = select.selectedIndex;
+				selectedTimeZoneName = select.options;
+				
+				selectedTimeZone = selectedTimeZoneName[selectedTimeZoneIndex].text;
+			    
+				localStorage.setItem("timeZone", selectedTimeZone);
+			    
+			    
+//			 document.getElementById("timeZoneList").innerHTML = zoneListFull;
+			}
+			
+			
+		}
+	};
+	
+}
+
+function displayTimeZone(){
+	selectedTimeZoneIndex = select.selectedIndex;
+	selectedTimeZoneName = select.options;
+	
+	selectedTimeZone = selectedTimeZoneName[selectedTimeZoneIndex].text;	
+	loadTimeZone = localStorage.getItem("timeZone");
+	console.log(loadTimeZone);
+	
+	
+	
+	
+    console.log(selectedTimeZoneName[selectedTimeZoneIndex].text);
+	console.log("Display Time Zone function invoked");
+	
+	var xhr = new XMLHttpRequest();
+
+	xhr.open('GET', '/timeZone?timeZone='+selectedTimeZone, true);
+	xhr.send();
+
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.response);
+			window.location.href = "/Dashboard";
+			document.getElementById("timeZone").innerHTML = selectedTimeZone;
+//			document.getElementById("timeStarted").innerHTML = this.response;
 		}
 	};
 }

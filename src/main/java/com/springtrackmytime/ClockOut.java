@@ -79,7 +79,7 @@ public class ClockOut implements Serializable {
 			System.out.println(endTime + " " + td.getEndTime());
 			
 			
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			sdf.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));
 	        String utcEndTime =  sdf.format(new Date(endTime));
 	        System.out.println(utcEndTime);
 	        out.print(utcEndTime);

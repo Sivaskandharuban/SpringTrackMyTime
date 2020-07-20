@@ -41,19 +41,24 @@ public class Dashboard implements Serializable{
 		  response.setHeader("Cache-Control","no-store");
 		  response.setHeader("Pragma","no-cache");
 		  response.setDateHeader ("Expires", 0);
+		  
+		 
 		SimpleDateFormat sdf = new SimpleDateFormat();
-		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
 		PrintWriter out = response.getWriter();		
 		
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(false);  
 		System.out.println(session);
+		
 		
 		if(session==null) {
 			System.out.println("Session not present, redirecting to login page");
 			response.sendRedirect("Login.jsp");
 		}
+
 		else {
 		try {
+			
 			
 			String mailId = (String) session.getAttribute("mailId");
 //			
@@ -61,26 +66,33 @@ public class Dashboard implements Serializable{
 			
 			UserData key = ObjectifyService.ofy().load().type(UserData.class).filter("mailId", mailId).first().now();
 //			 Collections.sort(list, Collections.reverseOrder());
-			
+				
+			if(key.getTimeZone()==null) {
+			key.setTimeZone("UTC");
+			session.setAttribute("timeZone", "UTC");
+			ObjectifyService.ofy().save().entity(key);
+			}
 			String result2 = "";
 			
 			String lastDate = ""; 
-			UserData userData = new UserData();
-			String name = userData.getUserName();
+			
 			
 			if(list!=null) {
 			for(TimeData entry : list) {
-				
+				sdf.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));
 				String date = new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date (entry.getStartTime()));
 				
 				if(!lastDate.equals(date)) {
 					lastDate=date;
+					Date now = new Date();
+					 SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");  
+					 df.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));  
 				result2 +=						
-						"<tr><td><u>"+date +"</u></td></tr>";
+						"<tr><td><u>"+df.format(now) +"</u></td></tr>";
 				}
 						
 						if(entry.getEndTime()!=0) {
-					result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td>" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
+					result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td class = \"zoneSelected\">" + sdf.format(new Date(entry.getStartTime())) +"</td><td class = \"zoneSelected\">" 
 			+ sdf.format(new Date(entry.getEndTime()))+"</td><td>"+
 			
 			((entry.getEndTime()- entry.getStartTime())/1000/60/60<10?"0"+(entry.getEndTime()- entry.getStartTime())/1000/60/60 : (entry.getEndTime()- entry.getStartTime())/1000/60/60) +"h " +
@@ -91,7 +103,7 @@ public class Dashboard implements Serializable{
 			System.out.println(entry.getEndTime());
 						}
 						else {
-							result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td>" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
+							result2 += "<tr><td>"+ "Add Task Description" + "</td><td>" + "Project Working" + "</td><td class = \"zoneSelected\">" + sdf.format(new Date(entry.getStartTime())) +"</td><td>" 
 									+ "Ongoing"+"</td><td>"+
 									
 									"</td></tr>";
@@ -144,9 +156,12 @@ public class Dashboard implements Serializable{
 					"\r\n" + 
 					"<div>\r\n" + 
 					"    <h1 class=\"Style\">Welcome to TMT</h1>\r\n" + 
-					"    <select name=\"Timezone\" id=\"Timezone\" style= \"float: right; display: block\">\r\n" + 
-					"    <option value=\"Time Zone\" id=\"timeZoneList\"></option>\r\n" + 
+					"    <select id=\"selectTimeZone\" style= \"float: right; display: block\">\r\n" + 
+					"    <option id = \"timeZone\"> " +	 session.getAttribute("timeZone") +
+					 "</option>\r\n" + 
+					
 					"    </select>\r\n" + 
+					"<button type=\"button\" onclick=\"displayTimeZone()\" style= \"float: right; display: block\">Change</button>" +
 					"    <label for=\"Timezone\" style =\"color: black; text-align: right; float: right; padding-right: 13px;\">\r\n" + 
 					"        Choose Timezone\r\n" + 
 					"    </label>\r\n" + 
@@ -232,7 +247,7 @@ public class Dashboard implements Serializable{
 			out.write(result);
 	}
 		catch(NullPointerException e) {
-			System.out.println("exception handled");
+			System.out.println("exception handled" + e.getMessage());
 			response.sendRedirect("Login.jsp");
 			
 	}

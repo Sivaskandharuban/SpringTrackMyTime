@@ -18,6 +18,16 @@ public class UserData implements Serializable{
 	public boolean clockin;
 	@com.googlecode.objectify.annotation.Id
 	Long id;
+	String timeZone;
+	
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
 	
 	
 	

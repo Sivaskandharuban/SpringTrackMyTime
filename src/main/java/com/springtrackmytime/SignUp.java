@@ -94,6 +94,7 @@ public class SignUp implements Serializable {
 		
 		UserData duplicate = ObjectifyService.ofy().load().type(UserData.class).filter("mailId",mailId).first().now();
 		System.out.println(duplicate);
+		
 
 		if (duplicate != null) {
 			response.setStatus(400);					
@@ -137,6 +138,7 @@ public class SignUp implements Serializable {
 			session.setAttribute("userId",key.getId());
 			System.out.println(session.getAttribute("userId"));
 			session.setAttribute("clockIn",null);
+			session.setAttribute("timeZone", "UTC");
 //			
 
 //			context.setAttribute("Logs", save);

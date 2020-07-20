@@ -40,6 +40,8 @@ public class TimeData implements Serializable{
 	String taskDescription;
 	String project;
 	
+
+
 	public TimeData(String mailId, Long startTime, Long endTime) {
 		// TODO Auto-generated constructor stub
 		 this.mailId = mailId;
@@ -48,6 +50,8 @@ public class TimeData implements Serializable{
 		 
 		 
 	}
+	
+	
 	
 	
 	public Long getId() {
