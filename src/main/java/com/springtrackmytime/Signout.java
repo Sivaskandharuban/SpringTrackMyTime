@@ -57,7 +57,6 @@ public class Signout implements Serializable {
 		  else {
 			  
 			  session.setAttribute("clockIn", true);
-			  request.getSession().invalidate();
 			  System.out.println(request.getSession());
 //			  response.sendRedirect("Login.jsp");
 			  System.out.println("Signout with clockin");			  

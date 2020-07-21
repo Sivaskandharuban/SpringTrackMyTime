@@ -408,23 +408,32 @@ function signOut(){
 
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			localStorage.clear();
+			if(localStorage.getItem("check")==false){
+				localStorage.clear();
+			window.location.replace("Login.jsp");
+			}
+			else{
+				
+				window.location.replace("Login.jsp");
+			}
 			// document.getElementById("loginResult").innerHTML =
 			// this.responseText;
-			window.location.replace("Login.jsp");
+			
 			// document.getElementById("message").innerHTML = this.responseText;
 		}
 	};
 }
 
 function refresh(){
+	
+	
 	timeZoneList();
 	console.log("function refresh called");
 	parseInt(localStorage.setItem("onOff", 0));
 	
 	if(localStorage.getItem("check")==='true'){
 		
-		
+		document.getElementById("timeStarted")
 		
 		console.log("refresh timer starts");
 		x = setInterval(refreshTimer, 1000);

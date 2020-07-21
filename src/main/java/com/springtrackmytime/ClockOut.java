@@ -48,6 +48,9 @@ public class ClockOut implements Serializable {
 	else{
 //		Long entryId= (Long)session.getAttribute("entryId");
 		Boolean clockdIn=(Boolean)session.getAttribute("clockIn");
+		if(clockdIn==null) {
+			clockdIn=true;
+		}
 		
 		if(!clockdIn) {
 			response.setStatus(400);
