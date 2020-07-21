@@ -1,12 +1,9 @@
 package com.springtrackmytime;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+
+
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.TimeZone;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,13 +11,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,11 +78,10 @@ public class Dashboard implements Serializable{
 				
 				if(!lastDate.equals(date)) {
 					lastDate=date;
-					Date now = new Date();
-					 SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");  
-					 df.setTimeZone(TimeZone.getTimeZone((String) session.getAttribute("timeZone")));  
+					
+					  
 				result2 +=						
-						"<tr><td><u>"+df.format(now) +"</u></td></tr>";
+						"<tr><td><u>"+date +"</u></td></tr>";
 				}
 						
 						if(entry.getEndTime()!=0) {
@@ -121,6 +114,8 @@ public class Dashboard implements Serializable{
 					"<html lang = 'en-US'>\r\n" + 
 					"\r\n" + 
 					"<head>\r\n" + 
+					"<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\"></meta>"+
+					" <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>"+
 					"    <link rel=\"stylesheet\" href=\"Style-TMT.css\">\r\n" + 
 					
 					"</head>\r\n" + 
@@ -156,15 +151,19 @@ public class Dashboard implements Serializable{
 					"\r\n" + 
 					"<div>\r\n" + 
 					"    <h1 class=\"Style\">Welcome to TMT</h1>\r\n" + 
+					"<div style= \"float: right; display: relative\">" +
+					"<button type=\"button\" onclick=\"displayTimeZone()\" style= \"float: right; display: block; margin-left: 10px; margin-right: 10px;\">Change</button>" +
 					"    <select id=\"selectTimeZone\" style= \"float: right; display: block\">\r\n" + 
 					"    <option id = \"timeZone\"> " +	 session.getAttribute("timeZone") +
 					 "</option>\r\n" + 
 					
 					"    </select>\r\n" + 
-					"<button type=\"button\" onclick=\"displayTimeZone()\" style= \"float: right; display: block\">Change</button>" +
+					
 					"    <label for=\"Timezone\" style =\"color: black; text-align: right; float: right; padding-right: 13px;\">\r\n" + 
 					"        Choose Timezone\r\n" + 
 					"    </label>\r\n" + 
+					
+					"</div>" +
 					"</div>\r\n" + 
 					"\r\n" + 
 					"<div class=\"Log\">\r\n" + 
