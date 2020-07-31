@@ -15,10 +15,10 @@
 <div id = loginResult></div>
 	<div id="Login">
 
-		<label id="labels">E-Mail Id</label><br> 
+		<label class="labels">E-Mail Id</label><br> 
 		<input type="email" name="mail" id = "mailId"><br><br>
 		
-		<label id="labels">Password</label><br> 
+		<label class="labels">Password</label><br> 
 		<input	type="password" name="pass" id = "Password"><br><br> 
 		
 		<button onclick = "login()">Sign In</button><br><br> 

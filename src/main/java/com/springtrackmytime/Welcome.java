@@ -21,6 +21,7 @@ public class Welcome implements Serializable{
 	@RequestMapping("/welcome")
 	protected void welcome(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		try {
 		HttpSession session = request.getSession();
 		System.out.println(session);
 		
@@ -39,6 +40,11 @@ public class Welcome implements Serializable{
 			response.sendRedirect("Login.jsp");
 		}
 	}
+		catch(NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	
 
 }
